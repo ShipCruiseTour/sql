@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : mar. 27 déc. 2022 à 15:29
+-- Généré le : mar. 27 déc. 2022 à 16:02
 -- Version du serveur : 10.4.27-MariaDB
 -- Version de PHP : 7.4.33
 
@@ -33,13 +33,6 @@ CREATE TABLE `chambre` (
   `type_ch` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
---
--- Déchargement des données de la table `chambre`
---
-
-INSERT INTO `chambre` (`id_ch`, `numero_ch`, `type_ch`) VALUES
-(1, 11, 1);
-
 -- --------------------------------------------------------
 
 --
@@ -55,16 +48,15 @@ CREATE TABLE `croisiere` (
   `prix_cr` float NOT NULL,
   `date_dep` date NOT NULL,
   `name_cr` varchar(255) NOT NULL,
-  `id_nav` int(11) NOT NULL,
-  `id_chambre` int(11) NOT NULL
+  `id_nav` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Déchargement des données de la table `croisiere`
 --
 
-INSERT INTO `croisiere` (`id_cr`, `port_dar`, `port_dep`, `image`, `nb_nuit`, `prix_cr`, `date_dep`, `name_cr`, `id_nav`, `id_chambre`) VALUES
-(2, 1, 1, 'amazon.jpg', 2, 2000, '2022-12-27', 'marouane', 1, 1);
+INSERT INTO `croisiere` (`id_cr`, `port_dar`, `port_dep`, `image`, `nb_nuit`, `prix_cr`, `date_dep`, `name_cr`, `id_nav`) VALUES
+(2, 1, 1, 'amazon.jpg', 2, 2000, '2022-12-27', 'marouane', 1);
 
 -- --------------------------------------------------------
 
@@ -76,16 +68,15 @@ CREATE TABLE `narive` (
   `id_n` int(11) NOT NULL,
   `name_n` varchar(255) NOT NULL,
   `nb_ch` int(11) NOT NULL,
-  `nb_pl` int(11) NOT NULL,
-  `port_depart` int(11) NOT NULL
+  `nb_pl` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Déchargement des données de la table `narive`
 --
 
-INSERT INTO `narive` (`id_n`, `name_n`, `nb_ch`, `nb_pl`, `port_depart`) VALUES
-(1, 'amazon', 2222, 222, 1);
+INSERT INTO `narive` (`id_n`, `name_n`, `nb_ch`, `nb_pl`) VALUES
+(1, 'amazon', 2222, 222);
 
 -- --------------------------------------------------------
 
@@ -116,15 +107,9 @@ CREATE TABLE `reservation` (
   `date_re` date NOT NULL,
   `prix_re` float NOT NULL,
   `id_cr` int(11) NOT NULL COMMENT 'id de narive',
-  `id-user` int(11) NOT NULL
+  `id-user` int(11) NOT NULL,
+  `id_ch` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-
---
--- Déchargement des données de la table `reservation`
---
-
-INSERT INTO `reservation` (`id_re`, `date_re`, `prix_re`, `id_cr`, `id-user`) VALUES
-(1, '2022-12-27', 2222220, 2, 1);
 
 -- --------------------------------------------------------
 
@@ -185,15 +170,13 @@ ALTER TABLE `croisiere`
   ADD PRIMARY KEY (`id_cr`),
   ADD KEY `port_de_depart` (`port_dep`),
   ADD KEY `port_de_arriver` (`port_dar`),
-  ADD KEY `id_navire_contr` (`id_nav`),
-  ADD KEY `id_chambre` (`id_chambre`);
+  ADD KEY `id_navire_contr` (`id_nav`);
 
 --
 -- Index pour la table `narive`
 --
 ALTER TABLE `narive`
-  ADD PRIMARY KEY (`id_n`),
-  ADD KEY `premier_port` (`port_depart`);
+  ADD PRIMARY KEY (`id_n`);
 
 --
 -- Index pour la table `port`
@@ -207,7 +190,8 @@ ALTER TABLE `port`
 ALTER TABLE `reservation`
   ADD PRIMARY KEY (`id_re`),
   ADD KEY `id_narive` (`id_cr`),
-  ADD KEY `id_user` (`id-user`);
+  ADD KEY `id_user` (`id-user`),
+  ADD KEY `id_chambre` (`id_ch`);
 
 --
 -- Index pour la table `typechambre`
@@ -282,21 +266,15 @@ ALTER TABLE `chambre`
 -- Contraintes pour la table `croisiere`
 --
 ALTER TABLE `croisiere`
-  ADD CONSTRAINT `id_chambre` FOREIGN KEY (`id_chambre`) REFERENCES `chambre` (`id_ch`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `id_navire_contr` FOREIGN KEY (`id_nav`) REFERENCES `narive` (`id_n`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `port_de_arriver` FOREIGN KEY (`port_dar`) REFERENCES `port` (`id_p`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `port_de_depart` FOREIGN KEY (`port_dep`) REFERENCES `port` (`id_p`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Contraintes pour la table `narive`
---
-ALTER TABLE `narive`
-  ADD CONSTRAINT `premier_port` FOREIGN KEY (`port_depart`) REFERENCES `port` (`id_p`) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
---
 -- Contraintes pour la table `reservation`
 --
 ALTER TABLE `reservation`
+  ADD CONSTRAINT `id_chambre` FOREIGN KEY (`id_ch`) REFERENCES `chambre` (`id_ch`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `id_cruise` FOREIGN KEY (`id_cr`) REFERENCES `croisiere` (`id_cr`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `id_user` FOREIGN KEY (`id-user`) REFERENCES `users` (`id_u`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
