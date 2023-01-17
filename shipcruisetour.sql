@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : sam. 31 déc. 2022 à 16:53
--- Version du serveur : 10.4.24-MariaDB
--- Version de PHP : 7.4.29
+-- Généré le : mar. 17 jan. 2023 à 19:50
+-- Version du serveur : 10.4.27-MariaDB
+-- Version de PHP : 8.2.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -30,7 +30,14 @@ SET time_zone = "+00:00";
 CREATE TABLE `chambre` (
   `id_ch` int(11) NOT NULL,
   `type_ch` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Déchargement des données de la table `chambre`
+--
+
+INSERT INTO `chambre` (`id_ch`, `type_ch`) VALUES
+(4, 2);
 
 -- --------------------------------------------------------
 
@@ -48,14 +55,7 @@ CREATE TABLE `croisiere` (
   `date_dep` date NOT NULL,
   `name_cr` varchar(255) NOT NULL,
   `id_nav` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Déchargement des données de la table `croisiere`
---
-
-INSERT INTO `croisiere` (`id_cr`, `port_dar`, `port_dep`, `image`, `nb_nuit`, `prix_cr`, `date_dep`, `name_cr`, `id_nav`) VALUES
-(2, 1, 1, 'amazon.jpg', 2, 2000, '2022-12-27', 'marouane', 1);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -68,7 +68,7 @@ CREATE TABLE `narive` (
   `name_n` varchar(255) NOT NULL,
   `nb_ch` int(11) NOT NULL,
   `nb_pl` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Déchargement des données de la table `narive`
@@ -86,7 +86,7 @@ INSERT INTO `narive` (`id_n`, `name_n`, `nb_ch`, `nb_pl`) VALUES
 CREATE TABLE `port` (
   `id_p` int(11) NOT NULL,
   `nameP` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Déchargement des données de la table `port`
@@ -108,7 +108,7 @@ CREATE TABLE `reservation` (
   `id_cr` int(11) NOT NULL COMMENT 'id de narive',
   `id_user` int(11) NOT NULL,
   `id_ch` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -119,17 +119,16 @@ CREATE TABLE `reservation` (
 CREATE TABLE `typechambre` (
   `id_t_ch` int(11) NOT NULL,
   `Name` varchar(255) NOT NULL,
-  `Prix` float NOT NULL,
-  `Capacite` int(11) NOT NULL COMMENT 'nombre des gens dans chaque chambre'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `Prix` float NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Déchargement des données de la table `typechambre`
 --
 
-INSERT INTO `typechambre` (`id_t_ch`, `Name`, `Prix`, `Capacite`) VALUES
-(1, 'sans chambre', 0, 0),
-(2, 'aaaaaaa\r\n', 2000, 0);
+INSERT INTO `typechambre` (`id_t_ch`, `Name`, `Prix`) VALUES
+(1, 'sans chambre', 0),
+(2, 'aaaaaaa\r\n', 2000);
 
 -- --------------------------------------------------------
 
@@ -143,7 +142,7 @@ CREATE TABLE `users` (
   `Email` varchar(255) NOT NULL,
   `Password` varchar(255) NOT NULL,
   `Role` tinyint(4) NOT NULL DEFAULT 0 COMMENT '0 for members / 1 for admin'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Déchargement des données de la table `users`
@@ -214,13 +213,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT pour la table `chambre`
 --
 ALTER TABLE `chambre`
-  MODIFY `id_ch` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_ch` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT pour la table `croisiere`
 --
 ALTER TABLE `croisiere`
-  MODIFY `id_cr` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_cr` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT pour la table `narive`
@@ -238,7 +237,7 @@ ALTER TABLE `port`
 -- AUTO_INCREMENT pour la table `reservation`
 --
 ALTER TABLE `reservation`
-  MODIFY `id_re` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_re` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT pour la table `typechambre`
@@ -275,7 +274,7 @@ ALTER TABLE `croisiere`
 --
 ALTER TABLE `reservation`
   ADD CONSTRAINT `id_chambre` FOREIGN KEY (`id_ch`) REFERENCES `chambre` (`id_ch`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `id_cruise` FOREIGN KEY (`id_cr`) REFERENCES `croisiere` (`id_cr`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `id_cruise` FOREIGN KEY (`id_cr`) REFERENCES `croisiere` (`id_cr`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `id_user` FOREIGN KEY (`id_user`) REFERENCES `users` (`id_u`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
