@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : mar. 17 jan. 2023 à 19:50
+-- Généré le : jeu. 26 jan. 2023 à 00:41
 -- Version du serveur : 10.4.27-MariaDB
 -- Version de PHP : 8.2.0
 
@@ -32,13 +32,6 @@ CREATE TABLE `chambre` (
   `type_ch` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
---
--- Déchargement des données de la table `chambre`
---
-
-INSERT INTO `chambre` (`id_ch`, `type_ch`) VALUES
-(4, 2);
-
 -- --------------------------------------------------------
 
 --
@@ -56,6 +49,15 @@ CREATE TABLE `croisiere` (
   `name_cr` varchar(255) NOT NULL,
   `id_nav` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Déchargement des données de la table `croisiere`
+--
+
+INSERT INTO `croisiere` (`id_cr`, `port_dar`, `port_dep`, `image`, `nb_nuit`, `prix_cr`, `date_dep`, `name_cr`, `id_nav`) VALUES
+(1, 1, 2, 'canary.jpg', 4, 2000, '2023-02-04', 'canary', 2),
+(2, 4, 3, 'hawai.jpg', 6, 4000, '2023-02-23', 'new york', 3),
+(3, 3, 2, 'amazon.jpg', 2, 1000, '2023-03-08', 'norvège', 1);
 
 -- --------------------------------------------------------
 
@@ -75,7 +77,9 @@ CREATE TABLE `narive` (
 --
 
 INSERT INTO `narive` (`id_n`, `name_n`, `nb_ch`, `nb_pl`) VALUES
-(1, 'amazon', 2222, 222);
+(1, 'Symphony of the Seas', 6000, 7000),
+(2, 'Titanic', 2000, 3000),
+(3, 'Queen Mary 2', 3000, 30000);
 
 -- --------------------------------------------------------
 
@@ -93,7 +97,10 @@ CREATE TABLE `port` (
 --
 
 INSERT INTO `port` (`id_p`, `nameP`) VALUES
-(1, 'aaaaaaaaaaaaaaa');
+(1, 'canary'),
+(2, 'maroc'),
+(3, 'norvège'),
+(4, 'new york');
 
 -- --------------------------------------------------------
 
@@ -127,8 +134,10 @@ CREATE TABLE `typechambre` (
 --
 
 INSERT INTO `typechambre` (`id_t_ch`, `Name`, `Prix`) VALUES
-(1, 'sans chambre', 0),
-(2, 'aaaaaaa\r\n', 2000);
+(1, 'Sans Chambre', 0),
+(2, 'Solo', 100),
+(3, 'Duo', 200),
+(4, '3 to 6 person', 600);
 
 -- --------------------------------------------------------
 
@@ -213,37 +222,37 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT pour la table `chambre`
 --
 ALTER TABLE `chambre`
-  MODIFY `id_ch` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_ch` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT pour la table `croisiere`
 --
 ALTER TABLE `croisiere`
-  MODIFY `id_cr` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_cr` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT pour la table `narive`
 --
 ALTER TABLE `narive`
-  MODIFY `id_n` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_n` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT pour la table `port`
 --
 ALTER TABLE `port`
-  MODIFY `id_p` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_p` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT pour la table `reservation`
 --
 ALTER TABLE `reservation`
-  MODIFY `id_re` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_re` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT pour la table `typechambre`
 --
 ALTER TABLE `typechambre`
-  MODIFY `id_t_ch` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_t_ch` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT pour la table `users`
